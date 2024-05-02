@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from cryptography.fernet import Fernet
+import io
 import base64
 
 app = Flask(__name__)
@@ -13,6 +14,8 @@ def decryptImage():
     key = data["key"].encode()
     cipher_suite = Fernet(key)
     decrypted_message = cipher_suite.decrypt(encrypted_image)
+    with open('result.png', 'wb') as f:
+        f.write(decrypted_message)
     return decrypted_message
 
 if __name__ == '__main__':
